@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <climits>
+#include <limits>
 #include <utility>
 
 using namespace std;
@@ -10,7 +10,7 @@ const int dx[] = {-1, 1, 0, 0};
 const int dy[] = {0, 0, -1, 1};
 
 vector<vector<int>> bfs(int start_x, int start_y, const vector<vector<int>>& grid, int n, int m) {
-    vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
+    vector<vector<int>> dist(m, vector<int>(n, numeric_limits<int>::max()));
     queue<pair<int, int>> q;
     
     dist[start_x][start_y] = 0;
@@ -26,7 +26,7 @@ vector<vector<int>> bfs(int start_x, int start_y, const vector<vector<int>>& gri
             int ny = y + dy[dir];
             
             if (nx >= 0 && nx < m && ny >= 0 && ny < n && 
-                grid[nx][ny] != 1 && dist[nx][ny] == INT_MAX) {
+                grid[nx][ny] != 1 && dist[nx][ny] == numeric_limits<int>::max()) {
                 dist[nx][ny] = dist[x][y] + 1;
                 q.push(make_pair(nx, ny));
             }
@@ -38,7 +38,7 @@ vector<vector<int>> bfs(int start_x, int start_y, const vector<vector<int>>& gri
 
 int main() {
     ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
+    cin.tie(NULL);
     
     int n, m;
     cin >> n >> m;
@@ -66,19 +66,19 @@ int main() {
     // BFS from home
     auto dist_from_home = bfs(home.first, home.second, grid, n, m);
     
-    int min_distance = INT_MAX;
+    int min_distance = numeric_limits<int>::max();
     
     // Check all umbrella shops
     for (int i = 0; i < umbrellas.size(); i++) {
         int ux = umbrellas[i].first;
         int uy = umbrellas[i].second;
-        if (dist_from_start[ux][uy] != INT_MAX && dist_from_home[ux][uy] != INT_MAX) {
+        if (dist_from_start[ux][uy] != numeric_limits<int>::max() && dist_from_home[ux][uy] != numeric_limits<int>::max()) {
             int total_dist = dist_from_start[ux][uy] + dist_from_home[ux][uy];
             min_distance = min(min_distance, total_dist);
         }
     }
     
-    if (min_distance == INT_MAX) {
+    if (min_distance == numeric_limits<int>::max()) {
         cout << -1 << endl;
     } else {
         cout << min_distance << endl;
