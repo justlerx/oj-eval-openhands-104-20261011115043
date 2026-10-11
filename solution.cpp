@@ -1,17 +1,17 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <limits>
+#include <climits>
 #include <utility>
 
 using namespace std;
 
-const int dx[] = {-1, 1, 0, 0};
-const int dy[] = {0, 0, -1, 1};
+const int dx[4] = {-1, 1, 0, 0};
+const int dy[4] = {0, 0, -1, 1};
 
-vector<vector<int>> bfs(int start_x, int start_y, const vector<vector<int>>& grid, int n, int m) {
-    vector<vector<int>> dist(m, vector<int>(n, numeric_limits<int>::max()));
-    queue<pair<int, int>> q;
+vector<vector<int> > bfs(int start_x, int start_y, const vector<vector<int> >& grid, int n, int m) {
+    vector<vector<int> > dist(m, vector<int>(n, INT_MAX));
+    queue<pair<int, int> > q;
     
     dist[start_x][start_y] = 0;
     q.push(make_pair(start_x, start_y));
@@ -26,7 +26,7 @@ vector<vector<int>> bfs(int start_x, int start_y, const vector<vector<int>>& gri
             int ny = y + dy[dir];
             
             if (nx >= 0 && nx < m && ny >= 0 && ny < n && 
-                grid[nx][ny] != 1 && dist[nx][ny] == numeric_limits<int>::max()) {
+                grid[nx][ny] != 1 && dist[nx][ny] == INT_MAX) {
                 dist[nx][ny] = dist[x][y] + 1;
                 q.push(make_pair(nx, ny));
             }
@@ -37,14 +37,11 @@ vector<vector<int>> bfs(int start_x, int start_y, const vector<vector<int>>& gri
 }
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    
     int n, m;
     cin >> n >> m;
     
-    vector<vector<int>> grid(m, vector<int>(n));
-    vector<pair<int, int>> umbrellas;
+    vector<vector<int> > grid(m, vector<int>(n));
+    vector<pair<int, int> > umbrellas;
     pair<int, int> start, home;
     
     for (int i = 0; i < m; i++) {
@@ -66,19 +63,19 @@ int main() {
     // BFS from home
     vector<vector<int> > dist_from_home = bfs(home.first, home.second, grid, n, m);
     
-    int min_distance = numeric_limits<int>::max();
+    int min_distance = INT_MAX;
     
     // Check all umbrella shops
-    for (int i = 0; i < umbrellas.size(); i++) {
+    for (int i = 0; i < (int)umbrellas.size(); i++) {
         int ux = umbrellas[i].first;
         int uy = umbrellas[i].second;
-        if (dist_from_start[ux][uy] != numeric_limits<int>::max() && dist_from_home[ux][uy] != numeric_limits<int>::max()) {
+        if (dist_from_start[ux][uy] != INT_MAX && dist_from_home[ux][uy] != INT_MAX) {
             int total_dist = dist_from_start[ux][uy] + dist_from_home[ux][uy];
             min_distance = min(min_distance, total_dist);
         }
     }
     
-    if (min_distance == numeric_limits<int>::max()) {
+    if (min_distance == INT_MAX) {
         cout << -1 << endl;
     } else {
         cout << min_distance << endl;
