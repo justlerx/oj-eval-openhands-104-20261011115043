@@ -61,10 +61,10 @@ int main() {
     }
     
     // BFS from start
-    auto dist_from_start = bfs(start.first, start.second, grid, n, m);
+    vector<vector<int> > dist_from_start = bfs(start.first, start.second, grid, n, m);
     
     // BFS from home
-    auto dist_from_home = bfs(home.first, home.second, grid, n, m);
+    vector<vector<int> > dist_from_home = bfs(home.first, home.second, grid, n, m);
     
     int min_distance = numeric_limits<int>::max();
     
